@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账号登陆</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url(/api/bing);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-content {
+            position: relative;
+            width: 800px;
+            height: 360px;
+            background: linear-gradient(to right bottom, #6ec6ca, #fec9c9);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .banner-box {
+            width: 500px;
+            height: 100%;
+            display: inline-block;
+            background: url(./assets/alienarena.png);
+            border-radius: 20px 0 0 20px;
+        }
+
+        .login-box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 330px;
+            height: 100%;
+
+            border-radius: 0 20px 20px 0;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-box > h1 {
+            font-size: 36px;
+            margin: 60px 0;
+            color: #fff;
+        }
+
+        .login-box > input {
+            margin-bottom: 20px;
+            width: 200px;
+            height: 36px;
+            padding: 0 20px;
+            border-radius: 36px;
+
+            border: none;
+            outline: none;
+            font-size: 18px;
+
+        }
+
+        .login-btn {
+            margin-top: 20px;
+            width: 100px;
+            height: 40px;
+            background-color: #fff;
+            border: none;
+            border-radius: 10px;
+        }
+
+        @media screen and (max-width: 900px) {
+            .login-content {
+                margin: 0 30px;
+            }
+
+            .banner-box {
+                border-radius: 20px;
+            }
+
+            .login-box {
+                background-color: rgba(160, 129, 175, 0.5);
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .login-content {
+                background-color: transparent;
+            }
+
+            .banner-box {
+                display: none;
+            }
+
+            .login-box {
+                position: initial;
+                margin: auto;
+                background-color: transparent;
+            }
+        }
+    </style>
+    <script>
+        async function login() {
+            // Get the username and password input fields
+            const username = document.querySelector('input[name="username"]').value.trim();
+            const password = document.querySelector('input[name="password"]').value.trim();
+
+            // Check if the username and password are not empty
+            if (!username || !password) {
+                alert("请输入用户名和密码...");
+                return;
+            }
+
+            const response = await fetch("/api/login" + window.location.search, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username,
+                    password
+                })
+            });
+
+            if (response.status === 301) {
+                window.location.href = response.headers.get('Location');
+            } else {
+                alert("密码错误...");
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+<div class="content">
+    <div class="login-content">
+        <a class="banner-box"></a>
+        <div class="login-box">
+            <h1>账号登陆</h1>
+            <input type="text" name="username" placeholder="账号">
+            <input type="password" name="password" placeholder="密码">
+            <button class="login-btn" onclick="login()">登录</button>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+

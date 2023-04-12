@@ -1,0 +1,2 @@
+/api/* https://api.zkun.eu.org/:splat 301
+/pages/* https://api.zkun.eu.org/pages/:splat 301
